@@ -30,7 +30,7 @@
             
             <td>{{ post[1] }}</td>
             <td>{{ post[2] }}</td>
-            <td>{{ post[3] }}</td>
+            <td><a href="{{ url_for('prof_profile', prof_id=post[3]) }}">{{ post[3] }}</a></td>
             <td>{{ post[5] }}</td>
             <td>{{ post[5]-post[6] }}</td>
             <td>Apply</a></td>

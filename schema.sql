@@ -1,1 +1,1 @@
-SELECT * FROM Professors;̥
+SELECT * FROM Applications;

@@ -134,6 +134,7 @@ def prof_profile(prof_id):
     return render_template('profileProf.html', prof=prof)
 
 @app.route('/<student_id>/s')
+
 def stud_profile(student_id):   
     conn = sqlite3.connect('database.db')
     curs = conn.cursor()
