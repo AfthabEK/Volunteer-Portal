@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+</head>
+<body>
+    <h1>Posts</h1>
+    {% for post in posts %}
+        <div class="post">
+            <h2>{{post[1]}}</h2>
+            <p>{{post[2]}}</p>
+        </div>
+    {% endfor %}    
+
+    <table>
+        <tr>
+          
+          <th>Title</th>
+          <th>Description</th>
+          <th>Professor ID</th>
+            <th>Number of volunteers</th>
+          <th>Remaining Slots</th>
+          <th>Apply</th>
+        </tr>
+        {% for post in posts %}
+          <tr>
+            
+            <td>{{ post[1] }}</td>
+            <td>{{ post[2] }}</td>
+            <td>{{ post[3] }}</td>
+            <td>{{ post[5] }}</td>
+            <td>{{ post[5]-post[6] }}</td>
+            <td>Apply</a></td>
+          </tr>
+        {% endfor %}
+      </table>
+</body>
+</html>

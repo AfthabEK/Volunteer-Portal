@@ -1,0 +1,31 @@
+<html lang="en">
+    <head>
+        <title>Display</title>
+    </head>
+        <div class="one">
+            <div class="content" align="left">
+                <div class="contentbar">
+                    <h1>Profile Details</h1>    </br>
+                     {% block content %}
+                        <div class="border">
+                            <table class="worddark"></br></br>
+                                <tr>
+                                    <td>Name:</td>
+                                    <td>{{  stud[2]  }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Roll number:</td>
+                                    <td>{{  stud[1]  }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email ID:</td>
+                                    <td>{{  stud[3]  }}</td>
+                                </tr>                 
+                            </table>
+                        </div>
+                    {% endblock %}                                          
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
