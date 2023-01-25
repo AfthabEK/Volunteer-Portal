@@ -164,3 +164,44 @@ def delete(id,prof_id):
     conn.close()
     message = "Your job has been deleted."
     return render_template('profPosts.html', posts=posts,message=message)
+
+#view applications for that post
+@app.route('/<int:id>/view_applications')
+def view_applications(id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(id,))
+    applications = curs.fetchall()
+    postname = curs.execute('SELECT title FROM posts where id=?',(id,))
+    conn.close()
+    return render_template('view_applications.html', applications=applications,postname=postname)
+
+#approve application for that post and student
+@app.route('/<int:application_id>/<int:post_id>/<int:student_id>/approve')
+def approve(application_id,student_id,post_id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    curs.execute('UPDATE applications SET status = "approved" WHERE id = ?', (application_id,))
+    curs.execute('UPDATE posts SET curr_count = curr_count + 1 WHERE id = ?', (post_id,))
+    curs.execute('UPDATE applications SET status = "unavailable" WHERE student_id = ? AND NOT (id=?)', (student_id,application_id,))
+    curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
+    applications = curs.fetchall()
+    postname=curs.execute('SELECT title FROM posts where id=?',(post_id,))
+    conn.commit()
+    conn.close()
+    message = "Application approved."
+    return render_template('view_applications.html', applications=applications,message=message,postname=postname)
+
+#reject application for that post and student
+@app.route('/<int:application_id>/<int:post_id>/<int:student_id>/reject')
+def reject(application_id,post_id,student_id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    curs.execute('UPDATE applications SET status = "rejected" WHERE id = ?', (application_id,))
+    curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
+    applications = curs.fetchall()
+    postname=curs.execute('SELECT title FROM posts where id=?',(post_id,))
+    conn.commit()
+    conn.close()
+    message = "Application rejected."
+    return render_template('view_applications.html', applications=applications,message=message,postname=postname)
