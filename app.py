@@ -176,6 +176,16 @@ def view_applications(id):
     conn.close()
     return render_template('view_applications.html', applications=applications,postname=postname)
 
+#view applications for that student
+@app.route('/<int:id>/view_applications_student')
+def view_applications_student(id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    curs.execute('SELECT posts.title, posts.description, professors.name, applications.status FROM posts, applications, professors WHERE posts.id = applications.post_id AND professors.id = posts.professor_id AND applications.student_id = ?;',(id,))
+    applications = curs.fetchall()
+    conn.close()
+    return render_template('view_applications_student.html', applications=applications)
+
 #approve application for that post and student
 @app.route('/<int:application_id>/<int:post_id>/<int:student_id>/approve')
 def approve(application_id,student_id,post_id):

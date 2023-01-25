@@ -18,6 +18,8 @@
                 <a href="{{ url_for('logout') }}" class="btn">Logout</a>
                 
                 <a href="{{ url_for('posts') }}" class="btn">Posts</a>
+                
+                <a href="{{ url_for('view_applications_student', id = session.id) }}" class="btn">Applications</a>
                 <a href="{{ url_for('stud_profile', student_id = session.id) }}" class="btn">Profile</a>
           </div>
         </div>
