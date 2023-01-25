@@ -85,16 +85,17 @@ def create_post():
     return render_template('create_post.html',msg=msg)
 
 
-@app.route("/apply")
-def apply():
-    
-    conn = sqlite3.connect("your_database.db")
-    cursor = conn.cursor()
 
+@app.route("/apply/<post_id>")
+def apply(post_id):
+    # Connect to the database
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM posts')
+    posts = cursor.fetchall()
     # Get the post_id, student_id and date_applied from the request
-    post_id = request.args.get("post_id")
     student_id = session["id"]
-    date_applied = datetime.datetime.now()
+
 
     # Check if the student has already applied for the post
     cursor.execute("SELECT COUNT(*) FROM applications WHERE post_id = ? AND student_id = ?", (post_id, student_id))
@@ -105,14 +106,14 @@ def apply():
         message = "You have already applied for this post."
     else:
         # Insert the new application into the "applications" table
-        cursor.execute("INSERT INTO applications (post_id, student_id, date_applied) VALUES (?, ?, ?)", (post_id, student_id, date_applied))
+        cursor.execute("INSERT INTO applications (post_id, student_id) VALUES (?, ?)", (post_id, student_id))
         conn.commit()
         message = "Your application has been received."
 
     # Close the connection
     conn.close()
 
-    return message
+    return render_template('posts.html', message=message,posts=posts)
 
 #create function to get all posts
 @app.route('/posts')
@@ -133,8 +134,8 @@ def prof_profile(prof_id):
     conn.close()
     return render_template('profileProf.html', prof=prof)
 
-@app.route('/<student_id>/s')
 
+@app.route('/<student_id>/s')
 def stud_profile(student_id):   
     conn = sqlite3.connect('database.db')
     curs = conn.cursor()
@@ -143,6 +144,23 @@ def stud_profile(student_id):
     conn.close()
     return render_template('profileStud.html', stud=stud)
 
+@app.route('/jobsPosted/<prof_id>')
+def jobsPosted(prof_id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    curs.execute('SELECT * FROM posts where professor_id=?',(prof_id,))
+    posts = curs.fetchall()
+    conn.close()
+    return render_template('profPosts.html', posts=posts)
 
-
-
+@app.route('/<int:id>/<prof_id>/delete')
+def delete(id,prof_id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    curs.execute('DELETE FROM posts WHERE id = ?', (id,))
+    curs.execute('SELECT * FROM posts where professor_id=?', (prof_id,))
+    posts = curs.fetchall()
+    conn.commit()
+    conn.close()
+    message = "Your job has been deleted."
+    return render_template('profPosts.html', posts=posts,message=message)

@@ -14,27 +14,27 @@
             <h2>{{post[1]}}</h2>
             <p>{{post[2]}}</p>
         </div>
-    {% endfor %}    
+    {% endfor %}
 
     <table>
         <tr>
-          
+
           <th>Title</th>
           <th>Description</th>
           <th>Professor ID</th>
             <th>Number of volunteers</th>
           <th>Remaining Slots</th>
-          <th>Apply</th>
+
         </tr>
         {% for post in posts %}
           <tr>
-            
+
             <td>{{ post[1] }}</td>
             <td>{{ post[2] }}</td>
             <td><a href="{{ url_for('prof_profile', prof_id=post[3]) }}">{{ post[3] }}</a></td>
             <td>{{ post[5] }}</td>
             <td>{{ post[5]-post[6] }}</td>
-            <td><a href="{{ url_for('apply', post_id=post[0]) }}">Apply</a></td>
+              <td><a href="{{ url_for('delete', id=post[0],prof_id=session.id)}}" onclick="return confirm('Are you sure you want to delete this post?')">Delete</a></td>
           </tr>
         {% endfor %}
       </table>

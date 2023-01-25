@@ -16,6 +16,7 @@
                 </h1></br></br></br>
                 <a href="{{ url_for('logout') }}" class="btn">Logout</a>
                 <a href="{{ url_for('create_post') }}" class="btn">Create post</a>
+              <a href="{{ url_for('jobsPosted',prof_id=session.id) }}" class="btn">Jobs Posted</a>
           </div>
         </div>
     </body>
