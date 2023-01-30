@@ -386,43 +386,46 @@ h1, .h1 {
         <div class='dashboard-content'>
             <div class='container'>
                 	<div class="title">
-                    
-    		<h1>Posts</h1></br>
-        <h4>{{ message }}</h4>
+    		<h1>Profile details</h1></br>
     	</div>
-            <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th class="text-center">Title</th>
-                        <th class="text-center">Description</th>
-                        <th class="text-center">Professor ID</th>
-                        <th class="text-center">Number of volunteers</th>
-                        <th class="text-center">Remaining Slots</th>
-                        <th class="text-center">Actions</th>
-                    </tr>
-                </thead>
-                  <tbody>
-                    {% for post in posts %}
-                      {% if post[5]-post[6] == 0 %}
-            
-                      {% else %}
-                        <tr>
-                          <td class="text-center">{{ post[1] }}</td>
-                          <td class="text-center">{{ post[2] }}</td>
-                          <td class="text-center"><a href="{{ url_for('profprofstud', prof_id=post[3]) }}">{{ post[3] }}</a></td>
-                          <td class="text-center">{{ post[5] }}</td>
-                          <td class="text-center">{{ post[5]-post[6] }}</td>
-                          <td class="td-actions text-center">
-                            <a class="btn btn-primary btn-outline-primary" href="{{ url_for('apply', post_id=post[0]) }}" role="button"><i class="fa fa-mouse-pointer"> Apply</i></a>
-                          </td>
-                        </tr>
-                      {% endif %}
-                    {% endfor %}
-                  </tbody>
-            </table>
+    	<div class="row">
+            <div class="col-lg-8 col-md-10 ml-175px mr-auto">
+                <div class="card mb-3">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Full Name</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">{{  prof[1]  }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">ID number</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">{{  prof[0]  }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">{{  prof[2]  }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <!--<a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </div>
-      </div>
-  </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
