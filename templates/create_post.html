@@ -1,25 +1,388 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create post</title>
+    <title>Jobs Posted</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script>
+        const mobileScreen = window.matchMedia("(max-width: 990px )");
+$(document).ready(function () {
+    $(".menu-toggle").click(function () {
+        if (mobileScreen.matches) {
+            $(".dashboard-nav").toggleClass("mobile-show");
+        } else {
+            $(".dashboard").toggleClass("dashboard-compact");
+        }
+    });
+});
+    </script>
+    <style>
+        :root {
+    --font-family-sans-serif: "Open Sans", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+*, *::before, *::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+nav {
+    display: block;
+}
+
+body {
+    margin: 0;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000000;
+    text-align: left;
+    background-color: #ffffff;
+}
+
+.container {
+    margin-left: 0px;
+    width: 1200px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: #3f84fc;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+a:hover {
+    color: #0458eb;
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h1, .h1 {
+    font-size: 2.5rem;
+    font-weight: normal;
+}
+
+.dashboard {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-app {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 2;
+    -webkit-flex-grow: 2;
+    -ms-flex-positive: 2;
+    flex-grow: 2;
+    margin-top: 84px;
+}
+
+.dashboard-content {
+    -webkit-box-flex: 2;
+    -webkit-flex-grow: 2;
+    -ms-flex-positive: 2;
+    flex-grow: 2;
+    padding: 25px;
+}
+
+.dashboard-nav {
+    min-width: 238px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    background-color: hsl(272, 95%, 31%);
+}
+
+.dashboard-compact .dashboard-nav {
+    display: none;
+}
+
+.dashboard-nav header {
+    min-height: 84px;
+    padding: 8px 27px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.dashboard-nav header .menu-toggle {
+    display: none;
+    margin-right: auto;
+}
+
+.dashboard-nav a {
+    color: #b32525;
+}
+
+.dashboard-nav a:hover {
+    text-decoration: none;
+}
+
+.dashboard-nav {
+    background-color: hsl(272, 95%, 31%);
+}
+
+.dashboard-nav a {
+    color: rgb(255, 255, 255);
+}
+
+.dashboard-nav-list {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.dashboard-nav-item {
+    min-height: 56px;
+    padding: 8px 20px 8px 70px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    letter-spacing: 0.02em;
+    transition: ease-out 0.5s;
+}
+
+.dashboard-nav-item i {
+    width: 36px;
+    font-size: 19px;
+    margin-left: -40px;
+}
+
+.dashboard-nav-item:hover {
+    background: rgba(223, 2, 227, 0.466);
+}
+
+
+.menu-toggle {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: hsl(272, 95%, 31%);
+}
+
+.menu-toggle:hover, .menu-toggle:active, .menu-toggle:focus {
+    text-decoration: none;
+    color: hsl(272, 95%, 31%);
+}
+
+.menu-toggle i {
+    font-size: 20px;
+}
+
+.dashboard-toolbar {
+    min-height: 84px;
+    background-color: #ffffff;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 8px 27px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-item-divider {
+    height: 1px;
+    margin: 1rem 0;
+    overflow: hidden;
+    background-color: rgb(211, 142, 230);
+}
+
+@media (min-width: 992px) {
+    .dashboard-app {
+        margin-left: 238px;
+    }
+
+    .dashboard-compact .dashboard-app {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-content {
+        padding: 15px 0px;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-nav {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1070;
+    }
+
+    .dashboard-nav.mobile-show {
+        display: block;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-nav header .menu-toggle {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+}
+
+@media (min-width: 992px) {
+    .dashboard-toolbar {
+        left: 238px;
+    }
+
+    .dashboard-compact .dashboard-toolbar {
+        left: 0;
+    }
+}
+    </style>
 </head>
-<body>
-    <form action="{{ url_for('create_post') }}" method="POST">
-        <div class="container">
+<div class='dashboard'>
+    <div class="dashboard-nav">
+        <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
+        <nav class="dashboard-nav-list">
+          <a href="/indexprof" class="dashboard-nav-item"><i class="fas fa-home"></i>Home</a>
+          <a href="{{ url_for('create_post') }}" class="dashboard-nav-item"><i class="fa fa-pencil-alt"></i>Create Post</a>
+          <a href="{{ url_for('jobsPosted',prof_id=session.id) }}" class="dashboard-nav-item"><i class="fa fa-list"></i>Jobs Posted</a>
+          <a href="{{ url_for('prof_profile',prof_id=session.id) }}" class="dashboard-nav-item"><i class="fas fa-user"></i>Profile</a>
+          <div class="nav-item-divider"></div>
+          <a href="{{ url_for('logout') }}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </nav>
+    </div>
+    <div class='dashboard-app'>
+        <header class='dashboard-toolbar'><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
+        <div class='dashboard-content'>
+            <div class='container'>
+                	<div class="title">
             <h1>Create post</h1>
-            <p>Please fill in this form to create a post.</p>
-            <hr>
-            <label for="title"><b>Title</b></label>
-            <input type="text" placeholder="Enter title" name="title" required>
-            <label for="description"><b>Description</b></label>
-            <input type="text" placeholder="Enter content" name="description" required>
-            <label for="count"><b>Number of volunteers</b></label>
-            <input type="text" placeholder="Enter number of volunteers" name="count" required>
-            <hr>
-            <button type="submit" class="registerbtn">Create post</button>
-        </div> 
+        <h4>{{ message }}</h4>
+    	</div>
+    	<div class="row">
+            <div class="">
+                <div class="table-responsive">
+                    <form action="{{ url_for('create_post') }}" method="POST">
+                        <div class="container">
+                            
+                            <p>Please fill in this form to create a post.</p>
+                            <hr>
+                            <label for="title"><b>Title:</b></label>
+                            <input class="form-control" type="text" placeholder="Enter title" name="title" required>
+                            <br>
+                            <br>
+                            
+                            <label for="description"><b>Description:</b></label>
+                            <input class="form-control input-lg" type="text" placeholder="Enter content" size="30" name="description" required>
+                            <br>
+                            <br>
+                            <label for="count"><b>Number of volunteers:</b></label>
+                            <input class="form-control" type="text" placeholder="Enter number of volunteers" name="count" required>
+                            <hr>
+                            <button type="submit" class="registerbtn">Create post</button>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+<body>
+
 </body>
 </html>

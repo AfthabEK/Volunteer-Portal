@@ -3,9 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome user!!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <style>
+        .background-image {
+            background-color: #19fbff;
+            background-image: linear-gradient(45deg, #19fbff 0%, #d733da 100%);
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: auto;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            height: 300px;
+            width:fit-content;
+            background-color: rgb(255, 255, 255);
+            border: 4px solid rgb(7, 47, 92);
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            border-radius: 25px;
+        }
+        .item {
+            align-items: center;
+            justify-items: center;
+        }
+        h1 {
+            font-weight:700;
+            text-align: center;
+        }
+        .full-width {
+            flex-basis: 100%;
+        }
+        .btn {
+            color: white;
+        }
+        .btn-purple{
+            background: #d733da;
+        }
+        .btn-purple:hover {
+            background-color: #d733da;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <a href="{{ url_for('loginStudent') }}" class="btn">Student</a>
-    <a href="{{ url_for('loginProf') }}" class="btn">Professor</a>
+    <div class="background-image">
+        </br></br></br></br></br>
+        <div class="container">
+          <div class="item full-width">
+            <h1>Get Volunteers</h1></div>
+          <div class="item">
+            <a href="{{ url_for('loginStudent') }}" class="btn">
+              <button class="btn btn-primary text-nowrap btn-lg" type="button">Student</button></a></div>
+          <div class="item">
+            <a href="{{ url_for('loginProf') }}" class="btn">
+              <button class="btn btn-purple text-nowrap btn-lg" type="button">Professor</button></a></div>
+          </div>
+    </div>
 </body>
 </html>

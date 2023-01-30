@@ -11,9 +11,21 @@ app.debug = True
 def home():
     return render_template('home.html')
 
+@app.route('/homepage')
+def homepage():
+    return render_template('home.html')
+    
+@app.route('/indexprof')
+def indexprof():
+    return render_template('indexProf.html')
+    
+@app.route('/indexstud')
+def indexstud():
+    return render_template('index.html')
 
 @app.route('/loginStudent', methods=['GET', 'POST'])
 def loginStudent():
+    
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         username = request.form['username']
@@ -24,10 +36,9 @@ def loginStudent():
         account = curs.fetchone()
         conn.close()
         if account:
-       
             session['loggedin'] = True
             session['id'] = account[0]
-            session['username'] = account[2]
+            session['username'] = account[1]
             msg = 'Logged in successfully !'
             return render_template('index.html', msg=msg)
         else:
@@ -80,7 +91,7 @@ def create_post():
         curs.execute('INSERT INTO posts (title, description,professor_id,date_posted,max_count,curr_count) VALUES (?, ?, ?, ?, ?, ?)', (title, description,session['id'],date_posted,count,0))
         conn.commit()
         conn.close()
-        return redirect(url_for('indexProf'))
+        return redirect(url_for('jobsPosted',prof_id=session['id']))
     msg=session['username']
     return render_template('create_post.html',msg=msg)
 
@@ -100,6 +111,14 @@ def apply(post_id):
     # Check if the student has already applied for the post
     cursor.execute("SELECT COUNT(*) FROM applications WHERE post_id = ? AND student_id = ?", (post_id, student_id))
     count = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM applications WHERE student_id = ? AND status='approved' ", (student_id,))
+    st=cursor.fetchone()[0]
+
+    if st > 0:
+        message = "You have already been approved for a post."
+        conn.close()
+        return render_template('posts.html', message=message,posts=posts)
 
     if count > 0:
         # The student has already applied for the post
@@ -160,6 +179,7 @@ def delete(id,prof_id):
     curs.execute('DELETE FROM posts WHERE id = ?', (id,))
     curs.execute('SELECT * FROM posts where professor_id=?', (prof_id,))
     posts = curs.fetchall()
+    curs.execute('DELETE FROM applications WHERE post_id = ?', (id,))
     conn.commit()
     conn.close()
     message = "Your job has been deleted."
@@ -172,7 +192,8 @@ def view_applications(id):
     curs = conn.cursor()
     curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(id,))
     applications = curs.fetchall()
-    postname = curs.execute('SELECT title FROM posts where id=?',(id,))
+    curs.execute('SELECT title FROM posts where id=?',(id,))
+    postname = curs.fetchone()
     conn.close()
     return render_template('view_applications.html', applications=applications,postname=postname)
 
@@ -180,7 +201,7 @@ def view_applications(id):
 @app.route('/<int:id>/view_applications_student')
 def view_applications_student(id):
     conn = sqlite3.connect('database.db')
-    curs = conn.cursor()
+    curs = conn.cursor()    
     curs.execute('SELECT posts.title, posts.description, professors.name, applications.status FROM posts, applications, professors WHERE posts.id = applications.post_id AND professors.id = posts.professor_id AND applications.student_id = ?;',(id,))
     applications = curs.fetchall()
     conn.close()
@@ -189,14 +210,69 @@ def view_applications_student(id):
 #approve application for that post and student
 @app.route('/<int:application_id>/<int:post_id>/<int:student_id>/approve')
 def approve(application_id,student_id,post_id):
+
     conn = sqlite3.connect('database.db')
     curs = conn.cursor()
+
+    #check if post is still available
+    curs.execute('SELECT max_count,curr_count FROM posts WHERE id = ?', (post_id,))
+    counts = curs.fetchone()
+    if counts[1] == counts[0]:
+        curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
+        applications = curs.fetchall()
+        curs.execute('SELECT title FROM posts where id=?',(post_id,))
+        postname = curs.fetchone()
+        conn.commit()
+        conn.close()
+        message = "Maximum number of applications approved."
+        return render_template('view_applications.html', applications=applications,message=message,postname=postname)
+
+
+    curs.execute('SELECT status FROM applications WHERE id = ?', (application_id,))
+    status = curs.fetchone()
+    if status[0] == "unavailable":
+        curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
+        applications = curs.fetchall()
+        curs.execute('SELECT title FROM posts where id=?',(post_id,))
+        postname = curs.fetchone()
+        conn.commit()
+        conn.close()
+        message = "Application unavailable."
+        return render_template('view_applications.html', applications=applications,message=message,postname=postname)
+
+    if status[0] == "rejected":
+        curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
+        applications = curs.fetchall()
+        curs.execute('SELECT title FROM posts where id=?',(post_id,))
+        postname = curs.fetchone()
+        conn.commit()
+        conn.close()
+        message = "Application already rejected."
+        return render_template('view_applications.html', applications=applications,message=message,postname=postname)
+    if status[0] == "approved":
+        curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
+        applications = curs.fetchall()
+        curs.execute('SELECT title FROM posts where id=?',(post_id,))
+        postname = curs.fetchone()
+        conn.commit()
+        conn.close()
+        message = "Application already approved."
+        return render_template('view_applications.html', applications=applications,message=message,postname=postname)
+
+
+
     curs.execute('UPDATE applications SET status = "approved" WHERE id = ?', (application_id,))
     curs.execute('UPDATE posts SET curr_count = curr_count + 1 WHERE id = ?', (post_id,))
     curs.execute('UPDATE applications SET status = "unavailable" WHERE student_id = ? AND NOT (id=?)', (student_id,application_id,))
+    curs.execute('SELECT max_count,curr_count FROM posts WHERE id = ?', (post_id,))
+    counts = curs.fetchone()
+    if counts[1] == counts[0]:
+        curs.execute('UPDATE applications SET status = "closed" WHERE post_id = ? and status ="pending" ', (post_id,))
+        
     curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
     applications = curs.fetchall()
-    postname=curs.execute('SELECT title FROM posts where id=?',(post_id,))
+    curs.execute('SELECT title FROM posts where id=?',(post_id,))
+    postname = curs.fetchone()
     conn.commit()
     conn.close()
     message = "Application approved."
@@ -207,10 +283,34 @@ def approve(application_id,student_id,post_id):
 def reject(application_id,post_id,student_id):
     conn = sqlite3.connect('database.db')
     curs = conn.cursor()
+    # if approved, cannot be rejected
+    curs.execute('SELECT status FROM applications WHERE id = ?', (application_id,))
+    status = curs.fetchone()
+    if status[0] == "approved":
+        curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
+        applications = curs.fetchall()
+        curs.execute('SELECT title FROM posts where id=?',(post_id,))
+        postname = curs.fetchone()
+        conn.commit()
+        conn.close()
+        message = "Application already approved."
+        return render_template('view_applications.html', applications=applications,message=message,postname=postname)
+
+    if status[0] == "unavailable":
+        curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
+        applications = curs.fetchall()
+        curs.execute('SELECT title FROM posts where id=?',(post_id,))
+        postname = curs.fetchone()
+        conn.commit()
+        conn.close()
+        message = "Application unavailable."
+        return render_template('view_applications.html', applications=applications,message=message,postname=postname)
+
     curs.execute('UPDATE applications SET status = "rejected" WHERE id = ?', (application_id,))
     curs.execute('SELECT Applications.id as applicationID,post_id,student_id,name,email,status FROM applications,Students where post_id=? AND applications.student_id=Students.id;',(post_id,))
     applications = curs.fetchall()
-    postname=curs.execute('SELECT title FROM posts where id=?',(post_id,))
+    curs.execute('SELECT title FROM posts where id=?',(post_id,))
+    postname = curs.fetchone()
     conn.commit()
     conn.close()
     message = "Application rejected."

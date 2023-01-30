@@ -1,39 +1,425 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Applications for {{ postname[0] }}</title>
+    <title>View Applications</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script>
+        const mobileScreen = window.matchMedia("(max-width: 990px )");
+$(document).ready(function () {
+    $(".menu-toggle").click(function () {
+        if (mobileScreen.matches) {
+            $(".dashboard-nav").toggleClass("mobile-show");
+        } else {
+            $(".dashboard").toggleClass("dashboard-compact");
+        }
+    });
+});
+    </script>
+    <style>
+        :root {
+    --font-family-sans-serif: "Open Sans", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+*, *::before, *::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+nav {
+    display: block;
+}
+
+body {
+    margin: 0;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000000;
+    text-align: left;
+    background-color: #ffffff;
+}
+
+.container {
+    margin-left: 0px;
+    width: 1200px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: #3f84fc;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+a:hover {
+    color: #0458eb;
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h1, .h1 {
+    font-size: 2.5rem;
+    font-weight: normal;
+}
+
+.dashboard {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-app {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 2;
+    -webkit-flex-grow: 2;
+    -ms-flex-positive: 2;
+    flex-grow: 2;
+    margin-top: 84px;
+}
+
+.dashboard-content {
+    -webkit-box-flex: 2;
+    -webkit-flex-grow: 2;
+    -ms-flex-positive: 2;
+    flex-grow: 2;
+    padding: 25px;
+}
+
+.dashboard-nav {
+    min-width: 238px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    background-color: hsl(272, 95%, 31%);
+}
+
+.dashboard-compact .dashboard-nav {
+    display: none;
+}
+
+.dashboard-nav header {
+    min-height: 84px;
+    padding: 8px 27px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.dashboard-nav header .menu-toggle {
+    display: none;
+    margin-right: auto;
+}
+
+.dashboard-nav a {
+    color: #b32525;
+}
+
+.dashboard-nav a:hover {
+    text-decoration: none;
+}
+
+.dashboard-nav {
+    background-color: hsl(272, 95%, 31%);
+}
+
+.dashboard-nav a {
+    color: rgb(255, 255, 255);
+}
+
+.dashboard-nav-list {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.dashboard-nav-item {
+    min-height: 56px;
+    padding: 8px 20px 8px 70px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    letter-spacing: 0.02em;
+    transition: ease-out 0.5s;
+}
+
+.dashboard-nav-item i {
+    width: 36px;
+    font-size: 19px;
+    margin-left: -40px;
+}
+
+.dashboard-nav-item:hover {
+    background: rgba(223, 2, 227, 0.466);
+}
+
+
+.menu-toggle {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: hsl(272, 95%, 31%);
+}
+
+.menu-toggle:hover, .menu-toggle:active, .menu-toggle:focus {
+    text-decoration: none;
+    color: hsl(272, 95%, 31%);
+}
+
+.menu-toggle i {
+    font-size: 20px;
+}
+
+.dashboard-toolbar {
+    min-height: 84px;
+    background-color: #ffffff;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 8px 27px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-item-divider {
+    height: 1px;
+    margin: 1rem 0;
+    overflow: hidden;
+    background-color: rgb(211, 142, 230);
+}
+
+@media (min-width: 992px) {
+    .dashboard-app {
+        margin-left: 238px;
+    }
+
+    .dashboard-compact .dashboard-app {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-content {
+        padding: 15px 0px;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-nav {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1070;
+    }
+
+    .dashboard-nav.mobile-show {
+        display: block;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-nav header .menu-toggle {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+}
+
+@media (min-width: 992px) {
+    .dashboard-toolbar {
+        left: 238px;
+    }
+
+    .dashboard-compact .dashboard-toolbar {
+        left: 0;
+    }
+}
+
+.badge {
+    font-size: 100%;
+    padding: 0.4em 0.4em;
+    border-radius: 0.25rem;
+}
+
+.bg-success {
+    background-color: #2a7e49;
+    color: #ffffff;
+}
+
+.bg-warning {
+    background-color: #fad817!important;
+    color: #000000;
+}
+
+.bg-danger {
+    background-color: #ff3232;
+    color: #ffffff;
+}
+
+.bg-unavailable {
+    background-color: #181717;
+    color: #ffffff;
+}
+    </style>
 </head>
 <body>
-    <h1>Applications for {{ postname[0] }}</h1>
-    <table>
-        <tr>
-            <th>Application ID</th>
-            <th>Student ID</th>
-            <th>Student Name</th>
-            <th>Student Email</th>
-            <th>Status</th>
-            <th>Approve</th>
-            <th>Reject</th>
-
-
-
-        </tr>
-        {% for application in applications %}
-            <tr>
-                <td>{{ application[0] }}</td>
-                <td>{{ application[2] }}</td>
-                <td>{{ application[3] }}</td>
-                <td>{{ application[4] }}</td>
-                <td>{{ application[5] }}</td>
-                <td><a href="{{ url_for('approve', application_id=application[0], student_id=application[2], post_id=application[1]) }}">Approve</a></td>
-                <td><a href="{{ url_for('reject', application_id=application[0], student_id=application[2], post_id=application[1]) }}">Reject</a></td>
-            
-            </tr>
-        {% endfor %}
-    </table>
-    
+<div class='dashboard'>
+    <div class="dashboard-nav">
+        <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
+        <nav class="dashboard-nav-list">
+          <a href="/indexprof" class="dashboard-nav-item"><i class="fas fa-home"></i>Home</a>
+          <a href="{{ url_for('create_post') }}" class="dashboard-nav-item"><i class="fa fa-pencil-alt"></i>Create Post</a>
+          <a href="{{ url_for('jobsPosted',prof_id=session.id) }}" class="dashboard-nav-item"><i class="fa fa-list"></i>Jobs Posted</a>
+          <a href="{{ url_for('prof_profile',prof_id=session.id) }}" class="dashboard-nav-item"><i class="fas fa-user"></i>Profile</a>
+          <div class="nav-item-divider"></div>
+          <a href="{{ url_for('logout') }}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </nav>
+    </div>
+    <div class='dashboard-app'>
+        <header class='dashboard-toolbar'><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
+        <div class='dashboard-content'>
+            <div class='container'>
+                	<div class="title">
+    		<h1>Applications for {{ postname[0] }}</h1>
+        <h4>{{ message }}</h4>
+    	</div>
+    	<div class="row">
+            <div class="col-lg-8 col-md-10 ml-175px mr-auto">
+                <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Application ID</th>
+                            <th class="text-center">Student ID</th>
+                            <th class="text-center">Student Name</th>
+                            <th class="text-center">Student Email</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in applications %}
+                        <tr>
+                            <td class="text-center">{{ application[0] }}</td>
+                            <td class="text-center">{{ application[2] }}</td>
+                            <td class="text-center">{{ application[3] }}</td>
+                            <td class="text-center">{{ application[4] }}</td>
+                            {% if application[5] == 'approved' %}
+                                <td class="text-center"><span class="badge bg-success">Approved</span></td>
+                            {% elif application[5] == 'pending' %}
+                                <td class="text-center"><span class="badge bg-warning">Pending</span></td>
+                            {% elif application[5] == 'rejected' %}
+                                <td class="text-center"><span class="badge bg-danger">Rejected</span></td>
+                            {% elif application[5] == 'unavailable' %}
+                                <td class="text-center"><span class="badge bg-unavailable">Unavailable</span></td>
+                            {% else %}
+                                <td class="text-center">{{ application[5] }}</td>
+                            {% endif %}
+                            <td class="td-actions text-center">
+                                <a class="btn btn-success btn-outline-success" href="{{ url_for('approve', application_id=application[0], student_id=application[2], post_id=application[1]) }}" role="button"><i class="fa fa-check"> Approve</i></a>
+                              <a class="btn btn-danger btn-outline-danger" href="{{ url_for('reject', application_id=application[0], student_id=application[2], post_id=application[1]) }}" role="button"><i class="fa fa-times"> Reject</i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

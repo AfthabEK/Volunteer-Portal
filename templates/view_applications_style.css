@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-    <meta charset="UTF-8">
-    <title>Profile: Student</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css'>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
-    <script>
-        const mobileScreen = window.matchMedia("(max-width: 990px )");
-$(document).ready(function () {
-    $(".menu-toggle").click(function () {
-        if (mobileScreen.matches) {
-            $(".dashboard-nav").toggleClass("mobile-show");
-        } else {
-            $(".dashboard").toggleClass("dashboard-compact");
-        }
-    });
-});
-    </script>
-    <style>
-        :root {
+:root {
     --font-family-sans-serif: "Open Sans", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -134,7 +111,7 @@ h1, .h1 {
     top: 0;
     bottom: 0;
     overflow: auto;
-    background-color: hsl(248, 86%, 28%);
+    background-color: hsl(272, 95%, 31%);
 }
 
 .dashboard-compact .dashboard-nav {
@@ -172,7 +149,7 @@ h1, .h1 {
 }
 
 .dashboard-nav {
-    background-color: hsl(248, 86%, 28%);
+    background-color: hsl(272, 95%, 31%);
 }
 
 .dashboard-nav a {
@@ -213,7 +190,7 @@ h1, .h1 {
 }
 
 .dashboard-nav-item:hover {
-    background: hsla(248, 52%, 63%, 0.831);
+    background: rgba(223, 2, 227, 0.466);
 }
 
 
@@ -233,12 +210,12 @@ h1, .h1 {
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
-    color: hsl(248, 86%, 28%);
+    color: hsl(272, 95%, 31%);
 }
 
 .menu-toggle:hover, .menu-toggle:active, .menu-toggle:focus {
     text-decoration: none;
-    color: hsl(248, 86%, 28%);
+    color: hsl(272, 95%, 31%);
 }
 
 .menu-toggle i {
@@ -268,7 +245,7 @@ h1, .h1 {
     height: 1px;
     margin: 1rem 0;
     overflow: hidden;
-    background-color: rgb(98, 92, 171);
+    background-color: rgb(211, 142, 230);
 }
 
 @media (min-width: 992px) {
@@ -326,106 +303,4 @@ h1, .h1 {
     .dashboard-compact .dashboard-toolbar {
         left: 0;
     }
-
-    .card {
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-    }
-
-    .card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      word-wrap: break-word;
-      background-color: #fff;
-      background-clip: border-box;
-      border: 0 solid rgba(0, 0, 0, .125);
-      border-radius: .25rem;
-    }
-
-    .card-body {
-      flex: 1 1 auto;
-      min-height: 1px;
-      padding: 1rem;
-    }
-
-    .mb-3,
-    .my-3 {
-      margin-bottom: 1rem !important;
-    }
-
-    .bg-gray-300 {
-      background-color: #e2e8f0;
-    }
-
-    .h-100 {
-      height: 100% !important;
-    }
-
-    .shadow-none {
-      box-shadow: none !important;
-    }
 }
-    </style>
-</head>
-<body>
-<div class='dashboard'>
-    <div class="dashboard-nav">
-        <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
-        <nav class="dashboard-nav-list">
-          <a href="/indexstud" class="dashboard-nav-item"><i class="fas fa-home"></i>Home</a>
-          <a href="{{ url_for('posts') }}" class="dashboard-nav-item"><i class="fa fa-mouse-pointer"></i>Apply for Posts</a>
-          <a href="{{ url_for('view_applications_student', id = session.id) }}" class="dashboard-nav-item"><i class="fa fa-file-alt"></i>View Applications</a>
-          <a href="{{ url_for('stud_profile', student_id = session.id) }}" class="dashboard-nav-item"><i class="fas fa-user"></i>Profile</a>
-          <div class="nav-item-divider"></div>
-          <a href="{{ url_for('logout') }}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i>Logout</a>
-        </nav>
-    </div>
-    <div class='dashboard-app'>
-        <header class='dashboard-toolbar'><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
-        <div class='dashboard-content'>
-            <div class='container'>
-                	<div class="title">
-    		<h1>Profile details</h1></br>
-    	</div>
-    	<div class="row">
-            <div class="col-lg-8 col-md-10 ml-175px mr-auto">
-                <div class="card mb-3">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Full Name</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">{{  stud[1]  }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">ID number</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">{{  stud[0]  }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Email</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">{{  stud[2]  }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <!--<a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>-->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
-</html>
