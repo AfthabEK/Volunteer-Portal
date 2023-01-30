@@ -203,6 +203,18 @@ def profprofstud(prof_id):
     conn.close()
     return render_template('profprofstud.html', prof=prof)
 
+#view student's profile by professor
+@app.route('/<student_id>/studprofprof')
+def studprofprof(student_id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    # Get the details of the student with the specified id
+    curs.execute('SELECT * FROM Students where id = ?',(student_id,))
+    stud = curs.fetchone()
+    conn.close()
+    return render_template('studprofprof.html', stud=stud)
+
+# all jobs posted by professor
 @app.route('/jobsPosted/<prof_id>')
 def jobsPosted(prof_id):
     conn = sqlite3.connect('database.db')
@@ -213,6 +225,7 @@ def jobsPosted(prof_id):
     conn.close()
     return render_template('profPosts.html', posts=posts)
 
+#delete post by professor
 @app.route('/<int:id>/<prof_id>/delete')
 def delete(id,prof_id):
     conn = sqlite3.connect('database.db')
@@ -249,10 +262,31 @@ def view_applications_student(id):
     conn = sqlite3.connect('database.db')
     curs = conn.cursor()    
     # get all the applications for the student with the specified id with the related attributes
-    curs.execute('SELECT posts.title, posts.description, professors.name, applications.status FROM posts, applications, professors WHERE posts.id = applications.post_id AND professors.id = posts.professor_id AND applications.student_id = ?;',(id,))
+    curs.execute('SELECT posts.title, posts.description, professors.id, applications.status FROM posts, applications, professors WHERE posts.id = applications.post_id AND professors.id = posts.professor_id AND applications.student_id = ?;',(id,))
     applications = curs.fetchall()
     conn.close()
     return render_template('view_applications_student.html', applications=applications)
+
+#edit profile for the student
+@app.route('/<int:id>/edit_student', methods=['GET', 'POST'])
+def edit_student(id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    # get the details of the student with the specified id
+    curs.execute('SELECT * FROM Students where id = ?',(id,))
+    stud = curs.fetchone()
+    conn.close()
+    if request.method == 'POST':
+        about = request.form['about']
+        conn = sqlite3.connect('database.db')
+        curs = conn.cursor()
+        # update the details of the student with the specified id
+        curs.execute('UPDATE Students SET about = ? WHERE id = ?', (about, id))
+        conn.commit()
+        conn.close()
+        message = "Your profile has been updated."
+        return redirect(url_for('stud_profile',student_id=id))
+    return render_template('edit_student.html', stud=stud)
 
 #approve application for that post and student
 @app.route('/<int:application_id>/<int:post_id>/<int:student_id>/approve')

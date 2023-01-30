@@ -1,2 +1,1 @@
-DELETE FROM posts;
-delete from Applications;
+SELECT * FROM Students;

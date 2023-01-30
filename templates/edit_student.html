@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <title>View Applications</title>
+    <title>Profile: Student</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css'>
@@ -365,32 +365,6 @@ h1, .h1 {
     .shadow-none {
       box-shadow: none !important;
     }
-
-    .badge {
-    font-size: 100%;
-    padding: 0.4em 0.4em;
-    border-radius: 0.25rem;
-}
-
-.bg-success {
-    background-color: #2a7e49;
-    color: #ffffff;
-}
-
-.bg-warning {
-    background-color: #fad817!important;
-    color: #000000;
-}
-
-.bg-danger {
-    background-color: #ff3232;
-    color: #ffffff;
-}
-
-.bg-unavailable {
-    background-color: #181717;
-    color: #ffffff;
-}
 }
     </style>
 </head>
@@ -412,42 +386,19 @@ h1, .h1 {
         <div class='dashboard-content'>
             <div class='container'>
                 	<div class="title">
-    		<h1>Posts that you have applied for:</h1></br>
+    		<h1> Edit Profile details</h1></br>
     	</div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Post title</th>
-                                <th class="text-center">Post Description</th>
-                                <th class="text-center">Professor ID</th>
-                                <th class="text-center">Application Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for application in applications %}
-                            <tr>
-                                <td class="text-center">{{ application[0] }}</td>
-                                <td class="text-center">{{ application[1] }}</td>
-                                <td class="text-center"> <a href="{{ url_for('profprofstud', prof_id=application[2]) }}">{{ application[2] }}</a></td>
-                                {% if application[3] == 'approved' %}
-                                    <td class="text-center"><span class="badge bg-success">Approved</span></td>
-                                {% elif application[3] == 'pending' %}
-                                    <td class="text-center"><span class="badge bg-warning">Pending</span></td>
-                                {% elif application[3] == 'rejected' %}
-                                    <td class="text-center"><span class="badge bg-danger">Rejected</span></td>
-                                {% elif application[3] == 'unavailable' %}
-                                    <td class="text-center"><span class="badge bg-unavailable">Unavailable</span></td>
-                                {% else %}
-                                    <td class="text-center">{{ application[3] }}</td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    </div>
-            </div>
 
+        <form action="{{ url_for('edit_student', id=stud[0]) }}" method="POST">
+            <div class="container">
+                <label for="title"><b>About:</b></label>
+                <input class="form-control" type="text" placeholder="About" name="about" value="{{ stud[4] }}" required>
+                <hr>
+                <button type="submit" class="btn btn-info">Update profile</button>
+            </div> 
+        </form>
+
+    </div>
 </div>
 </body>
 </html>

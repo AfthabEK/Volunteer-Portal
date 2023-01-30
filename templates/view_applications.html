@@ -394,7 +394,7 @@ h1, .h1 {
                         {% for application in applications %}
                         <tr>
                             <td class="text-center">{{ application[0] }}</td>
-                            <td class="text-center">{{ application[2] }}</td>
+                            <td class="text-center"> <a href="{{ url_for('studprofprof', student_id=application[2]) }}">{{ application[2] }}</a></td>
                             <td class="text-center">{{ application[3] }}</td>
                             <td class="text-center">{{ application[4] }}</td>
                             {% if application[5] == 'approved' %}

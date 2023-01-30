@@ -387,6 +387,7 @@ h1, .h1 {
             <div class='container'>
                 	<div class="title">
     		<h1>Profile details</h1></br>
+            <h4>{{ message }}</h4>
     	</div>
     	<div class="row">
             <div class="col-lg-8 col-md-10 ml-175px mr-auto">
@@ -416,15 +417,24 @@ h1, .h1 {
                         </div>
                       </div>
                       <hr>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <!--<a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>-->
+                        <div class="row">
+                            <div class="col-sm-3">
+                            <h6 class="mb-0">About</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">{{  stud[4]  }}
+                            </div>
                         </div>
-                      </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                              <a class="btn btn-info" href="{{ url_for('edit_student',id=stud[0])}}">Edit</a>
+                            </div>
+                </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
+        
     </div>
 </div>
 </body>
