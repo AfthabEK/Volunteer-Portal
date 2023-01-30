@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <title>Profile: Professor</title>
+    <title>Profile: Student</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css'>
@@ -134,7 +134,7 @@ h1, .h1 {
     top: 0;
     bottom: 0;
     overflow: auto;
-    background-color: hsl(272, 95%, 31%);
+    background-color: hsl(248, 86%, 28%);
 }
 
 .dashboard-compact .dashboard-nav {
@@ -172,7 +172,7 @@ h1, .h1 {
 }
 
 .dashboard-nav {
-    background-color: hsl(272, 95%, 31%);
+    background-color: hsl(248, 86%, 28%);
 }
 
 .dashboard-nav a {
@@ -213,7 +213,7 @@ h1, .h1 {
 }
 
 .dashboard-nav-item:hover {
-    background: rgba(223, 2, 227, 0.466);
+    background: hsla(248, 52%, 63%, 0.831);
 }
 
 
@@ -233,12 +233,12 @@ h1, .h1 {
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
-    color: hsl(272, 95%, 31%);
+    color: hsl(248, 86%, 28%);
 }
 
 .menu-toggle:hover, .menu-toggle:active, .menu-toggle:focus {
     text-decoration: none;
-    color: hsl(272, 95%, 31%);
+    color: hsl(248, 86%, 28%);
 }
 
 .menu-toggle i {
@@ -268,7 +268,7 @@ h1, .h1 {
     height: 1px;
     margin: 1rem 0;
     overflow: hidden;
-    background-color: rgb(211, 142, 230);
+    background-color: rgb(98, 92, 171);
 }
 
 @media (min-width: 992px) {
@@ -373,10 +373,10 @@ h1, .h1 {
     <div class="dashboard-nav">
         <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a></header>
         <nav class="dashboard-nav-list">
-          <a href="/indexprof" class="dashboard-nav-item"><i class="fas fa-home"></i>Home</a>
-          <a href="{{ url_for('create_post') }}" class="dashboard-nav-item"><i class="fa fa-pencil-alt"></i>Create Post</a>
-          <a href="{{ url_for('jobsPosted',prof_id=session.id) }}" class="dashboard-nav-item"><i class="fa fa-list"></i>Jobs Posted</a>
-          <a href="{{ url_for('prof_profile',prof_id=session.id) }}" class="dashboard-nav-item"><i class="fas fa-user"></i>Profile</a>
+          <a href="/indexstud" class="dashboard-nav-item"><i class="fas fa-home"></i>Home</a>
+          <a href="{{ url_for('posts') }}" class="dashboard-nav-item"><i class="fa fa-mouse-pointer"></i>Apply for Posts</a>
+          <a href="{{ url_for('view_applications_student', id = session.id) }}" class="dashboard-nav-item"><i class="fa fa-file-alt"></i>View Applications</a>
+          <a href="{{ url_for('stud_profile', student_id = session.id) }}" class="dashboard-nav-item"><i class="fas fa-user"></i>Profile</a>
           <div class="nav-item-divider"></div>
           <a href="{{ url_for('logout') }}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i>Logout</a>
         </nav>
@@ -386,47 +386,25 @@ h1, .h1 {
         <div class='dashboard-content'>
             <div class='container'>
                 	<div class="title">
-    		<h1>Profile details</h1></br>
-            <h4>{{ message }}</h4>
+    		<h1>Change password</h1></br>
     	</div>
-    	<div class="row">
-            <div class="col-lg-8 col-md-10 ml-175px mr-auto">
-                <div class="card mb-3">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Full Name</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">{{  prof[1]  }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">ID number</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">{{  prof[0]  }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Email</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">{{  prof[2]  }}
-                        </div>
-                      </div>
-                      <hr>
-                      <hr>
-                        <div class="row">
-                            <div class="col-sm-12">
-                              <a class="btn btn-info" href="{{ url_for('changeprof',prof_id=prof[0])}}">Change Password</a>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-            </div>
-        </div>
+
+        <form action="{{ url_for('changestud', student_id=session.id) }}" method="POST">
+            <div class="container">
+                <label for="title"><b>Current password</b></label>
+                <input class="form-control" type="password" placeholder="Current password" name="currpassstud" required>
+                <hr>
+                <label for="title"><b>New password</b></label>
+                <input class="form-control" type="password" placeholder="new password" name="newpassstud" required>
+                <hr>
+                <label for="title"><b>Confirm password</b></label>
+                
+                <input class="form-control" type="password" placeholder="new password" name="conpassstud" required>
+                <hr>
+                <button type="submit" class="btn btn-info">Change Password</button>
+            </div> 
+        </form>
+
     </div>
 </div>
 </body>

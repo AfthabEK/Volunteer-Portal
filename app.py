@@ -179,7 +179,8 @@ def prof_profile(prof_id):
     curs.execute('SELECT * FROM Professors where id = ?',(prof_id,))
     prof = curs.fetchone()
     conn.close()
-    return render_template('profileProf.html', prof=prof)
+    message=""
+    return render_template('profileProf.html', prof=prof,message=message)
 
 
 @app.route('/<student_id>/s')
@@ -430,3 +431,114 @@ def reject(application_id,post_id,student_id):
     conn.close()
     message = "Application rejected."
     return render_template('view_applications.html', applications=applications,message=message,postname=postname)
+
+#change password for professor
+@app.route('/<prof_id>/changeprof', methods=['GET', 'POST'])
+def changeprof(prof_id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    curs.execute('SELECT name FROM professors WHERE id = ?', (prof_id,))
+    conn.commit()
+    conn.close()
+    if request.method == 'POST':
+        oldpassword = request.form['currpassprof']
+        newpassword = request.form['newpassprof']
+        newpassword2 = request.form['conpassprof']
+        conn = sqlite3.connect('database.db')
+        curs = conn.cursor()
+        curs.execute('SELECT password FROM professors WHERE id = ?', (prof_id,))
+        password = curs.fetchone()
+        if oldpassword == password[0]:
+            if newpassword == newpassword2:
+                curs.execute('UPDATE professors SET password = ? WHERE id = ?', (newpassword,prof_id,))
+                conn.commit()
+                conn.close()
+
+                conn = sqlite3.connect('database.db')
+                curs = conn.cursor()
+                curs.execute('SELECT * FROM Professors where id = ?',(prof_id,))
+                prof = curs.fetchone()
+                conn.close()
+                message = "Password changed."
+                return render_template('profileProf.html', prof=prof,message=message)
+                
+  
+            else:
+                conn.commit()
+                conn.close()
+                conn = sqlite3.connect('database.db')
+                curs = conn.cursor()
+                curs.execute('SELECT * FROM Professors where id = ?',(prof_id,))
+                prof = curs.fetchone()
+                conn.close()
+                message = "Passwords do not match."
+                return render_template('profileProf.html', prof=prof,message=message)
+        else:
+            conn.commit()
+            conn.close()
+            
+            conn = sqlite3.connect('database.db')
+            curs = conn.cursor()
+            curs.execute('SELECT * FROM Professors where id = ?',(prof_id,))
+            prof = curs.fetchone()
+            conn.close()
+            message = "Incorrect Password."
+            return render_template('profileProf.html', prof=prof,message=message)
+
+    return render_template('changeprof.html', prof_id=prof_id)
+
+
+#change password for student
+@app.route('/<student_id>/changestud', methods=['GET', 'POST'])
+def changestud(student_id):
+    conn = sqlite3.connect('database.db')
+    curs = conn.cursor()
+    curs.execute('SELECT name FROM students WHERE id = ?', (student_id,))
+    conn.commit()
+    conn.close()
+    if request.method == 'POST':
+        oldpassword = request.form['currpassstud']
+        newpassword = request.form['newpassstud']
+        newpassword2 = request.form['conpassstud']
+        conn = sqlite3.connect('database.db')
+        curs = conn.cursor()
+        curs.execute('SELECT password FROM students WHERE id = ?', (student_id,))
+        password = curs.fetchone()
+        if oldpassword == password[0]:
+            if newpassword == newpassword2:
+                curs.execute('UPDATE students SET password = ? WHERE id = ?', (newpassword,student_id,))
+                conn.commit()
+                conn.close()
+
+                conn = sqlite3.connect('database.db')
+                curs = conn.cursor()
+                curs.execute('SELECT * FROM Students where id = ?',(student_id,))
+                student = curs.fetchone()
+                conn.close()
+                message = "Password changed."
+                return render_template('profileStud.html', stud=student,message=message)
+                
+  
+            else:
+                conn.commit()
+                conn.close()
+                conn = sqlite3.connect('database.db')
+                curs = conn.cursor()
+                curs.execute('SELECT * FROM Students where id = ?',(student_id,))
+                student = curs.fetchone()
+                conn.close()
+                message = "Passwords do not match."
+                return render_template('profileStud.html', stud=student,message=message)
+        else:
+            conn.commit()
+            conn.close()
+            
+            conn = sqlite3.connect('database.db')
+            curs = conn.cursor()
+            curs.execute('SELECT * FROM Students where id = ?',(student_id,))
+            student = curs.fetchone()
+            conn.close()
+            message = "Incorrect Password."
+            return render_template('profileStud.html', stud=student,message=message)
+
+    return render_template('changestud.html', student_id=student_id)
