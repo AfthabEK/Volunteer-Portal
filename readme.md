@@ -32,16 +32,16 @@ This is a web-based volunteer management system that connects students and profe
 
 Clone the repository to your local machine and install the necessary dependencies.
     
-    ```bash
+    
     git clone https://github.com/AfthabEK/volunteer-portal.git
     cd volunteer-portal
     pip install -r requirements.txt
-    ```
+    
 Run the application.
     
-    ```bash
+    
     python app.py
-    ```
+    
 The project will be available at localhost:5000.
 
 ## Contributions
