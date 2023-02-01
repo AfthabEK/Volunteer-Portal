@@ -1,4 +1,4 @@
-# Volunteer Management System
+# Volunteer Portal
 
 This is a web-based volunteer management system that connects students and professors for volunteer opportunities.The website is currently hosted at afthabek.pythonanywhere.com.
 
